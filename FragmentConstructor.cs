@@ -5,7 +5,7 @@ namespace ConsoleApplication
 {
     public class FragmentConstructor
     {
-        String fragments[] = {
+        String[] fragments = {
             "Lorem ipsu", "psum dolor sit amet", "sit a", "it amet consectetur", "r adipiscing elit"
         }; // Five fragments comprising the first line of Lorem Ipsum
 
@@ -13,18 +13,19 @@ namespace ConsoleApplication
         {
             var checkedFragments = CheckFragments(fragments);
             int i = 0;
-            for (i < checkedFragments.Max(); i++) {
+            for (i < checkedFragments.Max(); i++;) {
                 int j = i + 1;
-                for (j < checkedFragments.Max(); j++) {
+                for (j < checkedFragments.Max(); j++;) {
                     // Need some method of storing size of intersect along with value of i and j so we can return to
                     // them later for merging
                     // 3-value dictionary? Contains string a, string b, and string overlap (can get integer overlap
                     // from str overlap.Length)
+                    Console.WriteLine(j);
                 }
             }
         }
 
-        public static String[] CheckFragments(fragments)
+        public static String[] CheckFragments(String[] fragments)
         {
             // Perform sanity checking on sentence fragments (i.e. size < 1000 characters, characters valid)
             return checkedFragments;
