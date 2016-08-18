@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ConsoleApplication
@@ -12,10 +13,9 @@ namespace ConsoleApplication
         public static void Main(string[] fragments)
         {
             var checkedFragments = CheckFragments(fragments);
-            int i = 0;
-            for (i < checkedFragments.Max(); i++;) {
-                int j = i + 1;
-                for (j < checkedFragments.Max(); j++;) {
+            int length = checkedFragments.Length;
+            for (int i = 0; i < length; i++) {
+                for (int j = i + 1; j < length; j++) {
                     // Need some method of storing size of intersect along with value of i and j so we can return to
                     // them later for merging
                     // 3-value dictionary? Contains string a, string b, and string overlap (can get integer overlap
@@ -28,6 +28,17 @@ namespace ConsoleApplication
         public static String[] CheckFragments(String[] fragments)
         {
             // Perform sanity checking on sentence fragments (i.e. size < 1000 characters, characters valid)
+            int maxStringLength = 1000;
+            int length = fragments.Length;
+            List<string> list = new List<string>();
+
+            for (int i = 0; i < length; i++) {
+                Console.WriteLine(fragments[i]);
+                if (fragments[i].Length < maxStringLength && fragments[i].Length > 0) {
+                    list.Add(fragments[i]);
+                }
+            }
+            string[] checkedFragments = list.ToArray();
             return checkedFragments;
         }
 
