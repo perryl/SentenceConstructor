@@ -46,6 +46,7 @@ namespace ConsoleApplication
         {
             // Run Enumerable.Intersect comparisons here
             // Take two strings as argument, check if overlap between the two, return substring of overlapped chars
+            string overlap = "";
             return overlap;
         }
 
@@ -53,6 +54,7 @@ namespace ConsoleApplication
         {
             // Take two strings as argument, merge contents based on the overlap, return single merged string
             // If overlap equal to full length of a string, consider string merged and return larger string
+            string mergedString = "";
             return mergedString;
         }
     }
