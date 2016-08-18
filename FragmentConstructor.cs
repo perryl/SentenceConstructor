@@ -12,7 +12,7 @@ namespace ConsoleApplication
 
         public static void Main(string[] fragments)
         {
-            var checkedFragments = CheckFragments(fragments);
+            String[] checkedFragments = CheckFragments(fragments);
             int length = checkedFragments.Length;
             for (int i = 0; i < length; i++) {
                 for (int j = i + 1; j < length; j++) {
@@ -20,7 +20,6 @@ namespace ConsoleApplication
                     // them later for merging
                     // 3-value dictionary? Contains string a, string b, and string overlap (can get integer overlap
                     // from str overlap.Length)
-                    Console.WriteLine(j);
                 }
             }
         }
@@ -33,7 +32,6 @@ namespace ConsoleApplication
             List<string> list = new List<string>();
 
             for (int i = 0; i < length; i++) {
-                Console.WriteLine(fragments[i]);
                 if (fragments[i].Length < maxStringLength && fragments[i].Length > 0) {
                     list.Add(fragments[i]);
                 }
