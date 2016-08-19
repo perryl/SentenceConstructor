@@ -12,6 +12,7 @@ namespace ConsoleApplication
 
         public static void Main(string[] fragments)
         {
+            var overlapCheck = new List<Tuple<string, string, string, int>>();
             String[] checkedFragments = CheckFragments(fragments);
             int length = checkedFragments.Length;
             for (int i = 0; i < length; i++) {
@@ -20,7 +21,12 @@ namespace ConsoleApplication
                     // them later for merging
                     // 3-value dictionary? Contains string a, string b, and string overlap (can get integer overlap
                     // from str overlap.Length)
+                    // Order the dictionary in descending size of overlap
+                    // Overwrite dictionary for each iteration (given the merge will require new overlaps)
+                    string overlap = Overlap(checkedFragments[i], checkedFragments[j]);
+                    overlapCheck.Add(Tuple.Create(checkedFragments[i], checkedFragments[j], overlap, overlap.Length));
                 }
+                // Now sort overlapCheck by descending size of overlap.Length (Tuple.Item4)
             }
         }
 
@@ -40,11 +46,14 @@ namespace ConsoleApplication
             return checkedFragments;
         }
 
-        public static String Overlap()
+        public static String Overlap(stringA, stringB)
         {
             // Run Enumerable.Intersect comparisons here
             // Take two strings as argument, check if overlap between the two, return substring of overlapped chars
-            string overlap = "";
+            IEnumerable<string> overlap = stringA.Intersect(stringB);
+            if (overlap.IsNullOrEmpty) {
+                overlap = "";
+            }
             return overlap;
         }
 
