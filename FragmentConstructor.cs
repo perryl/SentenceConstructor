@@ -15,18 +15,18 @@ namespace ConsoleApplication
             var overlapCheck = new List<Tuple<string, string, string, int>>();
             String[] checkedFragments = CheckFragments(fragments);
             int length = checkedFragments.Length;
-            for (int i = 0; i < length; i++) {
-                for (int j = i + 1; j < length; j++) {
-                    // Need some method of storing size of intersect along with value of i and j so we can return to
-                    // them later for merging
-                    // 3-value dictionary? Contains string a, string b, and string overlap (can get integer overlap
-                    // from str overlap.Length)
-                    // Order the dictionary in descending size of overlap
-                    // Overwrite dictionary for each iteration (given the merge will require new overlaps)
-                    string overlap = Overlap(checkedFragments[i], checkedFragments[j]);
-                    overlapCheck.Add(Tuple.Create(checkedFragments[i], checkedFragments[j], overlap, overlap.Length));
+
+            while (length > 1) {
+                for (int i = 0; i < length; i++) {
+                    for (int j = i + 1; j < length; j++) {
+
+                        string overlap = Overlap(checkedFragments[i], checkedFragments[j]);
+                        overlapCheck.Add(Tuple.Create(checkedFragments[i], checkedFragments[j], overlap, overlap.Length));
+                        Console.WriteLine("Comparing \"{0}\" and \"{1}\"...Overlap: \"{2}\", length: {3}",
+                            checkedFragments[i], checkedFragments[j], overlap, overlap.Length);
+                    }
+                    // Now sort overlapCheck by descending size of overlap.Length (Tuple.Item4)
                 }
-                // Now sort overlapCheck by descending size of overlap.Length (Tuple.Item4)
             }
         }
 
