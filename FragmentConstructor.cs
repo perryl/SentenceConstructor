@@ -26,7 +26,9 @@ namespace ConsoleApplication
                             checkedFragments[i], checkedFragments[j], overlap, overlap.Length);
                     }
                     // Now sort overlapCheck by descending size of overlap.Length (Tuple.Item4)
+                    overlapCheck.Sort((x, y) => y.Item4.CompareTo(x.Item4));
                 }
+                overlapCheck.Clear(); // Remove all items for fresh comparison of remaining strings
             }
         }
 
