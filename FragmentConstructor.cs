@@ -48,20 +48,20 @@ namespace ConsoleApplication
             return checkedFragments;
         }
 
-        public static String Overlap(string stringA, string stringB)
+        public static String Overlap(string strA, string strB)
         {
             // Take two strings as argument, check if overlap between the two, return substring of overlapped chars
 
-            int[,] match = new int[stringA.Length, stringB.Length];
+            int[,] match = new int[strA.Length, strB.Length];
             int overlapSize = 0, overlapIndex = 0;
             List<char> overlapChar = new List<char>();
 
-            for (int i = 0; i < stringA.Length; i++) {
-                for (int j = 0; j < stringB.Length; j++) {
+            for (int i = 0; i < strA.Length; i++) {
+                for (int j = 0; j < strB.Length; j++) {
                     // If same char and i or j is 0, match is 1 (start of string). If same char and i and j non-zero,
                     // increment match value at last i & j by 1. Otherwise, if characters differ, set match to 0.
 
-                    match[i, j] = (stringA[i] == stringB[j]) ? ((i == 0 || j == 0) ? 1 : match[i - 1, j - 1] + 1) : 0;
+                    match[i, j] = (strA[i] == strB[j]) ? ((i == 0 || j == 0) ? 1 : match[i - 1, j - 1] + 1) : 0;
 
                     if (match[i, j] > overlapSize) {
                         overlapSize = match[i, j]; // New maximum overlap size
@@ -70,7 +70,7 @@ namespace ConsoleApplication
                             overlapChar.Clear();
                             overlapIndex = newOverlapIndex;
                         }
-                        overlapChar.Add(stringA[i]);
+                        overlapChar.Add(strA[i]);
                     }
                 }
             }
