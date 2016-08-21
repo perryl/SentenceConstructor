@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ConsoleApplication
 {
@@ -60,7 +61,7 @@ namespace ConsoleApplication
 
             int[,] match = new int[strA.Length, strB.Length];
             int overlapSize = 0, overlapIndex = 0;
-            List<char> overlapChar = new List<char>();
+            StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < strA.Length; i++) {
                 for (int j = 0; j < strB.Length; j++) {
@@ -75,17 +76,18 @@ namespace ConsoleApplication
                         if (match[i, j] > overlapSize) {
                             overlapSize = match[i, j]; // New maximum overlap size
                             int newOverlapIndex = i - match[i, j] + 1;
-                            if (newOverlapIndex != overlapIndex) { // Clear list, set new starting index
-                                overlapChar.Clear();
+                            if (newOverlapIndex != overlapIndex) {
+                                // Clear list, set new starting index, recreate overlap substring from prior index
+                                sb.Length = 0;
                                 overlapIndex = newOverlapIndex;
+                                sb.Append(strA.Substring(overlapIndex, (i + 1) - overlapIndex));
                             }
-                            overlapChar.Add(strA[i]);
+                            sb.Append(strA[i]);
                         }
                     }
                 }
             }
-            string overlap = String.Join("", overlapChar);
-            return overlap;
+            return sb.ToString();
         }
 
         public static String[] Merge(string strA, string strB, string overlap, string[] fragments)
