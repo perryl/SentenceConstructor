@@ -29,8 +29,13 @@ namespace ConsoleApplication
                 }
                 // Now sort overlapCheck by descending size of overlap.Length (Tuple.Item4)
                 overlapCheck.Sort((x, y) => y.Item4.CompareTo(x.Item4));
+                checkedFragments = Merge(
+                    overlapCheck[0].Item1, overlapCheck[0].Item2, overlapCheck[0].Item3, checkedFragments);
+                Console.WriteLine("Merging \"{0}\" & \"{1}\"\n", overlapCheck[0].Item1, overlapCheck[0].Item2);
                 overlapCheck.Clear(); // Remove all items for fresh comparison of remaining strings
+                length = checkedFragments.Length;
             }
+            Console.WriteLine("Final constructed string: {0}", String.Join("", checkedFragments));
         }
 
         public static String[] CheckFragments(String[] fragments)
