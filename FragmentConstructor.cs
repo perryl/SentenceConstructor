@@ -43,12 +43,19 @@ namespace ConsoleApplication
         public static String[] CheckFragments(String[] fragments)
         {
             // Perform sanity checking on fragments (i.e. array less than 5000 elements, strings less than 1000 chars)
-            int length = ((fragments.Length < 5000) ? fragments.Length : 5000);
+            if (fragments.Length > 5000) {
+                throw new ArgumentException(@"Array has too many elements: {0}\n
+                    Please reduce this to 5000 or less", fragments.Length);
+            }
             List<string> list = new List<string>();
 
             for (int i = 0; i < length; i++) {
                 if (fragments[i].Length < 1000 && fragments[i].Length > 0) {
                     list.Add(fragments[i]);
+                }
+                else {
+                    throw new ArgumentException(@"Array contains a string of invalid length: {0}\n
+                        Please ensure string lengths are between 1 and 1000 characters", fragments[i]);
                 }
             }
             return list.ToArray();
