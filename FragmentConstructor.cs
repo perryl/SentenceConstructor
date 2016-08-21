@@ -7,8 +7,9 @@ namespace ConsoleApplication
     public class FragmentConstructor
     {
         public static String[] fragments = new String[] {
-            "it amet consectetur", "sit a", "r adipiscing elit", "Lorem ipsu", "psum dolor sit amet"
-        }; // Five fragments comprising the first line of Lorem Ipsum
+            "it amet consectetu", "sit am", "psum dolor sit amet", "etur adipiscing elit", "Lorem ipsum ",
+            ". Quisque egestas vestibulum ligula nec tincidunt velit semper in"
+        }; // 6 fragments comprising the first line of Lorem Ipsum
 
         public static void Main(string[] fragments)
         {
