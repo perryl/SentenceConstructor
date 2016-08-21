@@ -46,7 +46,7 @@ namespace ConsoleApplication
             int length = fragments.Length;
             if (length > 5000) {
                 throw new ArgumentException(@"Array has too many elements: {0}\n
-                    Please reduce this to 5000 or less", length);
+                    Please reduce this to 5000 or less", length.ToString());
             }
             List<string> list = new List<string>();
 
