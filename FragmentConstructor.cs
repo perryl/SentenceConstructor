@@ -76,13 +76,13 @@ namespace ConsoleApplication
                         if (match[i, j] > overlapSize) {
                             overlapSize = match[i, j]; // New maximum overlap size
                             int newOverlapIndex = i - match[i, j] + 1;
+                            if (overlapSize - i == 1 || overlapSize - j == 1) { sb.Append(strA[i]); }
                             if (newOverlapIndex != overlapIndex) {
                                 // Clear list, set new starting index, recreate overlap substring from prior index
                                 sb.Length = 0;
                                 overlapIndex = newOverlapIndex;
                                 sb.Append(strA.Substring(overlapIndex, (i + 1) - overlapIndex));
                             }
-                            sb.Append(strA[i]);
                         }
                     }
                 }
