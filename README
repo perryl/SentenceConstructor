@@ -1,1 +1,4 @@
 C# assignment based on greedy algorithmic sentence construction from fragments.
+
+Compiled with .NET core; can be ran by downloading dotnet, cloning this repository,
+entering the cloned repo directory and running `dotnet restore` and `dotnet run`.
