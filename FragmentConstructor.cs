@@ -61,16 +61,20 @@ namespace ConsoleApplication
                     // If same char and i or j is 0, match is 1 (start of string). If same char and i and j non-zero,
                     // increment match value at last i & j by 1. Otherwise, if characters differ, set match to 0.
 
-                    match[i, j] = (strA[i] == strB[j]) ? ((i == 0 || j == 0) ? 1 : match[i - 1, j - 1] + 1) : 0;
-
-                    if (match[i, j] > overlapSize) {
-                        overlapSize = match[i, j]; // New maximum overlap size
-                        int newOverlapIndex = i - match[i, j] + 1;
-                        if (newOverlapIndex != overlapIndex) { // Clear list, set new starting index
-                            overlapChar.Clear();
-                            overlapIndex = newOverlapIndex;
+                    if (strA[i] != strB[j]) {
+                        match[i, j] = 0;
+                    }
+                    else {
+                        match[i, j] = (i == 0 || j == 0) ? 1 : 1 + match[i - 1, j - 1];
+                        if (match[i, j] > overlapSize) {
+                            overlapSize = match[i, j]; // New maximum overlap size
+                            int newOverlapIndex = i - match[i, j] + 1;
+                            if (newOverlapIndex != overlapIndex) { // Clear list, set new starting index
+                                overlapChar.Clear();
+                                overlapIndex = newOverlapIndex;
+                            }
+                            overlapChar.Add(strA[i]);
                         }
-                        overlapChar.Add(strA[i]);
                     }
                 }
             }
