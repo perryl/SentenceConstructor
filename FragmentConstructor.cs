@@ -43,9 +43,10 @@ namespace ConsoleApplication
         public static String[] CheckFragments(String[] fragments)
         {
             // Perform sanity checking on fragments (i.e. array less than 5000 elements, strings less than 1000 chars)
-            if (fragments.Length > 5000) {
+            int length = fragments.Length;
+            if (length > 5000) {
                 throw new ArgumentException(@"Array has too many elements: {0}\n
-                    Please reduce this to 5000 or less", fragments.Length);
+                    Please reduce this to 5000 or less", length);
             }
             List<string> list = new List<string>();
 
