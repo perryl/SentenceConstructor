@@ -82,12 +82,36 @@ namespace ConsoleApplication
             return overlap;
         }
 
-        public static String Merge()
+        public static String[] Merge(string strA, string strB, string overlap, string[] fragments)
         {
             // Take two strings as argument, merge contents based on the overlap, return single merged string
-            // If overlap equal to full length of a string, consider string merged and return larger string
-            string mergedString = "";
-            return mergedString;
+            // If overlap equal to full length of a string, consider string merged
+            string merged = "", leftover = "", removed = "";
+            if (overlap == strA) {
+                removed = strA;
+            }
+            else if (overlap == strB) {
+                removed = strB;
+            }
+            else {
+                if (strA.EndsWith(overlap) && strB.StartsWith(overlap)) { // First string in sequence is stringA
+                    string newA = strA.Remove((strA.Length - overlap.Length), overlap.Length);
+                    merged = String.Join("", newA, strB);
+                    leftover = strA;
+                    removed = strB;
+                }
+                else if (strB.EndsWith(overlap) && strA.StartsWith(overlap)) { // First string in sequence is stringB
+                    string newB = strB.Remove((strB.Length - overlap.Length), overlap.Length);
+                    merged = String.Join("", newB, strA);
+                    leftover = strB;
+                    removed = strA;
+                }
+                else { // Case where overlap is 0; ordering is irrelevant (only occurs if no other merge is possible)
+                    merged = String.Join("", strA, strB);
+                    leftover = strA;
+                    removed = strB;
+                }
+            }
         }
     }
 }
