@@ -18,8 +18,33 @@ namespace ConsoleApplication
 
         public static void Main()
         {
+            String[] checkedFragments;
+            Console.Write("Enter [C/c] to create array, or any key to use default array: ");
+            try {
+                string read = Console.ReadLine();
+                if (read == "C" || read == "c") {
+                    Console.Write("Enter integer to set array size: ");
+                    try {
+                        int size = Convert.ToInt16(Console.ReadLine());
+                        string[] array = new string[size];
+                        for (int i = 0; i < size; i++) {
+                            Console.WriteLine("Enter string into array:");
+                            array[i] = Console.ReadLine();
+                        }
+                        checkedFragments = CheckFragments(array);
+                    }
+                    catch {
+                        throw new Exception("Invalid user input");
+                    }
+                }
+                else {
+                    checkedFragments = CheckFragments(fragments);
+                }
+            }
+            catch {
+                throw new Exception("Invalid user input");
+            }
             var overlapCheck = new List<Tuple<string, string, string, int>>();
-            String[] checkedFragments = CheckFragments(fragments);
             int length = checkedFragments.Length;
 
             while (length > 1) {
