@@ -112,6 +112,29 @@ namespace ConsoleApplication
                     removed = strB;
                 }
             }
+            return ReplaceItem(merged, leftover, removed, fragments);
+        }
+
+        public static String[] ReplaceItem(string merged, string leftover, string removed, string[] fragments)
+        {
+            List<string> list = new List<string>(fragments);
+            int l = fragments.Length;
+            bool replaced = false;
+            for (int i = 0; i < l; i++)
+            {
+                if (fragments[i] == leftover || fragments[i] == removed)
+                {
+                    list.RemoveAt(i);
+                    l--;
+                    if (!String.IsNullOrWhiteSpace(merged) && !replaced)
+                    {
+                        list.Insert(i, merged);
+                        replaced = true;
+                        l++;
+                    }
+                }
+            }
+            return list.ToArray();
         }
     }
 }
