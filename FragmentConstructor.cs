@@ -8,11 +8,15 @@ namespace ConsoleApplication
     public class FragmentConstructor
     {
         public static String[] fragments = new String[] {
-            "it amet consectetu", "sit am", "psum dolor sit amet", "etur adipiscing elit", "Lorem ipsum ",
+            "it amet consectetu",
+            "sit am",
+            "psum dolor sit amet",
+            "etur adipiscing elit",
+            "Lorem ipsum ",
             ". Quisque egestas vestibulum ligula nec tincidunt velit semper in"
         }; // 6 fragments comprising the first line of Lorem Ipsum
 
-        public static void Main(string[] fragments)
+        public static void Main()
         {
             var overlapCheck = new List<Tuple<string, string, string, int>>();
             String[] checkedFragments = CheckFragments(fragments);
@@ -21,38 +25,33 @@ namespace ConsoleApplication
             while (length > 1) {
                 for (int i = 0; i < length; i++) {
                     for (int j = i + 1; j < length; j++) {
-
                         string overlap = Overlap(checkedFragments[i], checkedFragments[j]);
                         overlapCheck.Add(Tuple.Create(checkedFragments[i], checkedFragments[j], overlap, overlap.Length));
-                        Console.WriteLine("Comparing \"{0}\" and \"{1}\"...Overlap: \"{2}\", length: {3}",
-                            checkedFragments[i], checkedFragments[j], overlap, overlap.Length);
                     }
                 }
                 // Now sort overlapCheck by descending size of overlap.Length (Tuple.Item4)
+
                 overlapCheck.Sort((x, y) => y.Item4.CompareTo(x.Item4));
                 checkedFragments = Merge(
                     overlapCheck[0].Item1, overlapCheck[0].Item2, overlapCheck[0].Item3, checkedFragments);
-                Console.WriteLine("Merging \"{0}\" & \"{1}\"\n", overlapCheck[0].Item1, overlapCheck[0].Item2);
                 overlapCheck.Clear(); // Remove all items for fresh comparison of remaining strings
-                length = checkedFragments.Length;
+                length = checkedFragments.Length; // Update length to reflect updated array
             }
-            Console.WriteLine("Final constructed string: {0}", String.Join("", checkedFragments));
+            Console.WriteLine(String.Join("", checkedFragments));
         }
 
         public static String[] CheckFragments(String[] fragments)
         {
-            // Perform sanity checking on sentence fragments (i.e. size < 1000 characters, characters valid)
-            int maxStringLength = 1000;
-            int length = fragments.Length;
+            // Perform sanity checking on fragments (i.e. array less than 5000 elements, strings less than 1000 chars)
+            int length = ((fragments.Length < 5000) ? fragments.Length : 5000);
             List<string> list = new List<string>();
 
             for (int i = 0; i < length; i++) {
-                if (fragments[i].Length < maxStringLength && fragments[i].Length > 0) {
+                if (fragments[i].Length < 1000 && fragments[i].Length > 0) {
                     list.Add(fragments[i]);
                 }
             }
-            string[] checkedFragments = list.ToArray();
-            return checkedFragments;
+            return list.ToArray();
         }
 
         public static String Overlap(string strA, string strB)
@@ -76,7 +75,10 @@ namespace ConsoleApplication
                         if (match[i, j] > overlapSize) {
                             overlapSize = match[i, j]; // New maximum overlap size
                             int newOverlapIndex = i - match[i, j] + 1;
-                            if (overlapSize - i == 1 || overlapSize - j == 1) { sb.Append(strA[i]); }
+
+                            if (overlapSize - i == 1 || overlapSize - j == 1) {
+                                sb.Append(strA[i]);
+                            }
                             if (newOverlapIndex != overlapIndex) {
                                 // Clear list, set new starting index, recreate overlap substring from prior index
                                 sb.Length = 0;
@@ -126,20 +128,19 @@ namespace ConsoleApplication
         public static String[] ReplaceItem(string merged, string leftover, string removed, string[] fragments)
         {
             List<string> list = new List<string>(fragments);
-            int l = fragments.Length;
+            int length = fragments.Length;
             bool replaced = false;
-            for (int i = 0; i < l; i++)
-            {
-                if (fragments[i] == leftover || fragments[i] == removed)
-                {
+
+            for (int i = 0; i < length; i++) {
+                if (fragments[i] == leftover || fragments[i] == removed) {
                     list.RemoveAt(i);
-                    l--;
-                    if (!String.IsNullOrWhiteSpace(merged) && !replaced)
-                    {
+
+                    if (!String.IsNullOrWhiteSpace(merged) && !replaced) {
+                        // Check string to be merged is valid, and that it hasn't already been inserted into the array
                         list.Insert(i, merged);
                         replaced = true;
-                        l++;
                     }
+                    length = fragments.Length;
                 }
             }
             return list.ToArray();
