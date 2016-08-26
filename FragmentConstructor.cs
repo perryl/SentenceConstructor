@@ -7,7 +7,7 @@ namespace ConsoleApplication
 {
     public class FragmentConstructor
     {
-        public static String[] fragments = new String[] {
+        public static String[] dummy = new String[] {
             "it amet consectetu",
             "sit am",
             "psum dolor sit amet",
@@ -18,6 +18,7 @@ namespace ConsoleApplication
 
         public static void Main()
         {
+            String[] fragments = {"m quaerat voluptatem.", "pora incidunt ut labore et d", ", consectetur, adipisci velit", "olore magnam aliqua", "idunt ut labore et dolore magn", "uptatem.", "i dolorem ipsum qu", "iquam quaerat vol", "psum quia dolor sit amet, consectetur, a", "ia dolor sit amet, conse", "squam est, qui do", "Neque porro quisquam est, qu", "aerat voluptatem.", "m eius modi tem", "Neque porro qui", ", sed quia non numquam ei", "lorem ipsum quia dolor sit amet", "ctetur, adipisci velit, sed quia non numq", "unt ut labore et dolore magnam aliquam qu", "dipisci velit, sed quia non numqua", "us modi tempora incid", "Neque porro quisquam est, qui dolorem i", "uam eius modi tem", "pora inc", "am al"};
             var overlapCheck = new List<Tuple<string, string, string, int>>();
             String[] checkedFragments = CheckFragments(fragments);
             int length = checkedFragments.Length;
@@ -25,7 +26,7 @@ namespace ConsoleApplication
             while (length > 1) {
                 for (int i = 0; i < length; i++) {
                     for (int j = i + 1; j < length; j++) {
-                        string overlap = Overlap(checkedFragments[i], checkedFragments[j]);
+                        string, bool overlap, valid = Overlap(checkedFragments[i], checkedFragments[j]);
                         overlapCheck.Add(Tuple.Create(checkedFragments[i], checkedFragments[j], overlap, overlap.Length));
                     }
                 }
@@ -62,13 +63,14 @@ namespace ConsoleApplication
             return list.ToArray();
         }
 
-        public static String Overlap(string strA, string strB)
+        public static String Overlap(string strA, string strB, out bool validOverlap)
         {
             // Take two strings as argument, check if overlap between the two, return substring of overlapped chars
 
             int[,] match = new int[strA.Length, strB.Length];
             int overlapSize = 0, overlapIndex = 0;
             StringBuilder sb = new StringBuilder();
+            bool validOverlap = false;
 
             for (int i = 0; i < strA.Length; i++) {
                 for (int j = 0; j < strB.Length; j++) {
@@ -84,9 +86,7 @@ namespace ConsoleApplication
                             overlapSize = match[i, j]; // New maximum overlap size
                             int newOverlapIndex = i - match[i, j] + 1;
 
-                            if (overlapSize - i == 1 || overlapSize - j == 1) {
-                                sb.Append(strA[i]);
-                            }
+                            sb.Append(strA[i]);
                             if (newOverlapIndex != overlapIndex) {
                                 // Clear list, set new starting index, recreate overlap substring from prior index
                                 sb.Length = 0;
@@ -96,6 +96,9 @@ namespace ConsoleApplication
                         }
                     }
                 }
+            }
+            if ((strA.StartsWith(overlap) && strB.EndsWith(overlap)) || (strB.StartsWith(overlap) && strA.EndsWith(overlap))) {
+                validOverlap = true;
             }
             return sb.ToString();
         }
@@ -130,6 +133,7 @@ namespace ConsoleApplication
                     removed = strB;
                 }
             }
+            Console.WriteLine("REMOVE {0} (len {1})\n\n", overlap, overlap.Length);
             return ReplaceItem(merged, leftover, removed, fragments);
         }
 
