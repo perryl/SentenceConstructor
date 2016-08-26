@@ -67,8 +67,9 @@ namespace ConsoleApplication
             // Take two strings as argument, check if overlap between the two, return substring of overlapped chars
 
             int[,] match = new int[strA.Length, strB.Length];
-            int overlapSize = 0, overlapIndex = 0;
+            int overlapSize = 0, overlapIndex = 0, listIndex = 0;
             StringBuilder sb = new StringBuilder();
+            List<string> sbList = new List<string>();
 
             for (int i = 0; i < strA.Length; i++) {
                 for (int j = 0; j < strB.Length; j++) {
@@ -83,21 +84,31 @@ namespace ConsoleApplication
                         if (match[i, j] > overlapSize) {
                             overlapSize = match[i, j]; // New maximum overlap size
                             int newOverlapIndex = i - match[i, j] + 1;
-
-                            if (overlapSize - i == 1 || overlapSize - j == 1) {
+                            
+                            if (newOverlapIndex == overlapIndex) {
                                 sb.Append(strA[i]);
                             }
-                            if (newOverlapIndex != overlapIndex) {
+                            else {
+                                overlapIndex = newOverlapIndex;
+                                sbList.Add(sb.ToString());
                                 // Clear list, set new starting index, recreate overlap substring from prior index
                                 sb.Length = 0;
-                                overlapIndex = newOverlapIndex;
                                 sb.Append(strA.Substring(overlapIndex, (i + 1) - overlapIndex));
                             }
                         }
                     }
                 }
             }
-            return sb.ToString();
+            sbList.Add(sb.ToString());
+            sbList.Sort((x, y) => y.Length.CompareTo(x.Length));
+            if (sbList.Count != 1){
+                if (sbList[0].Length == sbList[1].Length) {
+                    if (strA.StartsWith(sbList[1]) || strA.EndsWith(sbList[1])) {
+                        return sbList[1].ToString();
+                    }
+                }
+            }
+            return sbList[0].ToString();
         }
 
         public static String[] Merge(string strA, string strB, string overlap, string[] fragments)
