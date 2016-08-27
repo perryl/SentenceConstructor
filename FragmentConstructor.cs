@@ -67,8 +67,9 @@ namespace ConsoleApplication
             // Take two strings as argument, check if overlap between the two, return substring of overlapped chars
 
             int[,] match = new int[strA.Length, strB.Length];
-            int overlapSize = 0, overlapIndex = 0;
+            int overlapIndex = 0, newOverlapIndex;
             StringBuilder sb = new StringBuilder();
+            List<String> sbList = new List<String>();
 
             for (int i = 0; i < strA.Length; i++) {
                 for (int j = 0; j < strB.Length; j++) {
@@ -80,24 +81,48 @@ namespace ConsoleApplication
                     }
                     else {
                         match[i, j] = (i == 0 || j == 0) ? 1 : 1 + match[i - 1, j - 1];
-                        if (match[i, j] > overlapSize) {
-                            overlapSize = match[i, j]; // New maximum overlap size
-                            int newOverlapIndex = i - match[i, j] + 1;
 
-                            if (overlapSize - i == 1 || overlapSize - j == 1) {
-                                sb.Append(strA[i]);
-                            }
-                            if (newOverlapIndex != overlapIndex) {
-                                // Clear list, set new starting index, recreate overlap substring from prior index
-                                sb.Length = 0;
-                                overlapIndex = newOverlapIndex;
-                                sb.Append(strA.Substring(overlapIndex, (i + 1) - overlapIndex));
+                        newOverlapIndex = i - match[i, j] + 1;
+
+                        if (match[i, j] >= 2) {
+                            // Clear list, set new starting index, recreate overlap substring from prior index
+                            sb.Length = 0;
+                            overlapIndex = newOverlapIndex;
+                            sb.Append(strA.Substring(overlapIndex, (i + 1) - overlapIndex));
+
+                            if (!sbList.Contains(sb.ToString())) {
+                                sbList.Add(sb.ToString());
                             }
                         }
                     }
                 }
             }
-            return sb.ToString();
+            if (!sbList.Contains(sb.ToString())) { sbList.Add(sb.ToString()); }
+            return CheckOverlapList(sbList);
+        }
+
+        public static string CheckOverlapList(List<String> list)
+        {
+            // Check validity of overlap; i.e. does it occur at beginning of one string and end of the other, or is the
+            // overlap equal to one of the comparison strings?
+            int i = 0;
+            list.Sort((x, y) => y.Length.CompareTo(x.Length));
+            if (list.Count >= 1) {
+                while (i < list.Count){
+                    string s = list[i];
+                    if ((strA.StartsWith(s) && strB.EndsWith(s)) ||
+                        (strB.StartsWith(s) && strA.EndsWith(s)) ||
+                        (s == strA || s == strB))
+                    {
+                        return s;
+                    }
+                    else {
+                        i++;
+                    }
+                }
+            }
+            // If list empty, can say there is zero overlap
+            return "";
         }
 
         public static String[] Merge(string strA, string strB, string overlap, string[] fragments)
