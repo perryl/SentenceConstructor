@@ -94,6 +94,11 @@ namespace ConsoleApplication
                                 sbList.Add(sb.ToString());
                             }
                         }
+                        else if ((i == strA.Length - 1 && j == 0) || (i == 0 && j == strB.Length - 1)) {
+                            // Edge case: strings have a single character overlap at the end of one of the strings
+                            sb.Append(strA[i]);
+                            sbList.Add(sb.ToString());
+                        }
                     }
                 }
             }
