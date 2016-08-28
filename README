@@ -2,8 +2,3 @@ C# assignment based on greedy algorithmic sentence construction from fragments.
 
 Compiled with .NET core; can be ran by downloading dotnet, cloning this repository,
 entering the cloned repo directory and running `dotnet restore` and `dotnet run`.
-
-If running with .NET core, move the FragmentConstructorTests.cs file out of the
-working directory, or rename to, fr. ex., FragmentConstructorTests.cs.dist. If you
-are porting this to a VisualStudio application, include the unit tests file as
-normal.
