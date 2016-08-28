@@ -7,7 +7,7 @@ namespace ConsoleApplication
 {
     public class FragmentConstructor
     {
-        public static String[] fragments = new String[] {
+        public static String[] fragmentA = new String[] {
             "it amet consectetu",
             "sit am",
             "psum dolor sit amet",
@@ -15,29 +15,80 @@ namespace ConsoleApplication
             "Lorem ipsum ",
             ". Quisque egestas vestibulum ligula nec tincidunt velit semper in"
         }; // 6 fragments comprising the first line of Lorem Ipsum
+        public static String[] fragmentB = new String[] {
+            "all is well",
+            "ell that en",
+            "hat end",
+            "t ends well"
+        };
+        public static String[] fragmentC = new String[] {
+            "m quaerat voluptatem.",
+            "pora incidunt ut labore et d",
+            ", consectetur, adipisci velit",
+            "olore magnam aliqua",
+            "idunt ut labore et dolore magn",
+            "uptatem.",
+            "i dolorem ipsum qu",
+            "iquam quaerat vol",
+            "psum quia dolor sit amet, consectetur, a",
+            "ia dolor sit amet, conse",
+            "squam est, qui do",
+            "Neque porro quisquam est, qu",
+            "aerat voluptatem.",
+            "m eius modi tem",
+            "Neque porro qui",
+            ", sed quia non numquam ei",
+            "lorem ipsum quia dolor sit amet",
+            "ctetur, adipisci velit, sed quia non numq",
+            "unt ut labore et dolore magnam aliquam qu",
+            "dipisci velit, sed quia non numqua",
+            "us modi tempora incid",
+            "Neque porro quisquam est, qui dolorem i",
+            "uam eius modi tem",
+            "pora inc",
+            "am al"
+        };
+        public static String[] fragmentD = new String[] {
+            "rst of times.",
+            "est of times,",
+            "imes, it was the",
+            "e worst o",
+            "f times,",
+            "It was the b",
+            "was the best of",
+            "It was th",
+            "was the w"
+        };
 
         public static void Main()
         {
-            var overlapCheck = new List<Tuple<string, string, string, int>>();
-            String[] checkedFragments = CheckFragments(fragments);
-            int length = checkedFragments.Length;
+            List<String[]> fragmentsList = new List<String[]>();
+            fragmentsList.Add(fragmentA);
+            fragmentsList.Add(fragmentB);
+            fragmentsList.Add(fragmentC);
+            fragmentsList.Add(fragmentD);
+            foreach (String[] stringArray in fragmentsList) {
+                var overlapCheck = new List<Tuple<string, string, string, int>>();
+                String[] checkedFragments = CheckFragments(stringArray);
+                int length = checkedFragments.Length;
 
-            while (length > 1) {
-                for (int i = 0; i < length; i++) {
-                    for (int j = i + 1; j < length; j++) {
-                        string overlap = Overlap(checkedFragments[i], checkedFragments[j]);
-                        overlapCheck.Add(Tuple.Create(checkedFragments[i], checkedFragments[j], overlap, overlap.Length));
+                while (length > 1) {
+                    for (int i = 0; i < length; i++) {
+                        for (int j = i + 1; j < length; j++) {
+                            string overlap = Overlap(checkedFragments[i], checkedFragments[j]);
+                            overlapCheck.Add(Tuple.Create(checkedFragments[i], checkedFragments[j], overlap, overlap.Length));
+                        }
                     }
-                }
-                // Now sort overlapCheck by descending size of overlap.Length (Tuple.Item4)
+                    // Now sort overlapCheck by descending size of overlap.Length (Tuple.Item4)
 
-                overlapCheck.Sort((x, y) => y.Item4.CompareTo(x.Item4));
-                checkedFragments = Merge(
-                    overlapCheck[0].Item1, overlapCheck[0].Item2, overlapCheck[0].Item3, checkedFragments);
-                overlapCheck.Clear(); // Remove all items for fresh comparison of remaining strings
-                length = checkedFragments.Length; // Update length to reflect updated array
+                    overlapCheck.Sort((x, y) => y.Item4.CompareTo(x.Item4));
+                    checkedFragments = Merge(
+                        overlapCheck[0].Item1, overlapCheck[0].Item2, overlapCheck[0].Item3, checkedFragments);
+                    overlapCheck.Clear(); // Remove all items for fresh comparison of remaining strings
+                    length = checkedFragments.Length; // Update length to reflect updated array
+                }
+                Console.WriteLine(String.Join("", checkedFragments));
             }
-            Console.WriteLine(String.Join("", checkedFragments));
         }
 
         public static String[] CheckFragments(String[] fragments)
