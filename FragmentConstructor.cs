@@ -98,10 +98,10 @@ namespace ConsoleApplication
                 }
             }
             if (!sbList.Contains(sb.ToString())) { sbList.Add(sb.ToString()); }
-            return CheckOverlapList(sbList);
+            return CheckOverlapList(sbList, strA, strB);
         }
 
-        public static string CheckOverlapList(List<String> list)
+        public static string CheckOverlapList(List<String> list, string strA, string strB)
         {
             // Check validity of overlap; i.e. does it occur at beginning of one string and end of the other, or is the
             // overlap equal to one of the comparison strings?
