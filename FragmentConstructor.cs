@@ -15,15 +15,19 @@ namespace ConsoleApplication
             "Lorem ipsum ",
             ". Quisque egestas vestibulum ligula nec tincidunt velit semper in"
         }; // 6 fragments comprising the first line of Lorem Ipsum
+        public static String sentenceA = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque egestas vestibulum ligula nec tincidunt velit semper in";
+
         public static String[] fragmentB = new String[] {
             "all is well",
             "ell that en",
             "hat end",
             "t ends well"
         };
+        public static String sentenceB = "all is well that ends well";
+
         public static String[] fragmentC = new String[] {
             "m quaerat voluptatem.",
-            "pora incidunt ut labore et d",
+            "pora ",
             ", consectetur, adipisci velit",
             "olore magnam aliqua",
             "idunt ut labore et dolore magn",
@@ -48,6 +52,8 @@ namespace ConsoleApplication
             "pora inc",
             "am al"
         };
+        public static string sentenceC = "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.";
+
         public static String[] fragmentD = new String[] {
             "rst of times.",
             "est of times,",
@@ -59,17 +65,18 @@ namespace ConsoleApplication
             "It was th",
             "was the w"
         };
+        public static String sentenceD = "It was the best of times, it was the worst of times.";
 
         public static void Main()
         {
-            List<String[]> fragmentsList = new List<String[]>();
-            fragmentsList.Add(fragmentA);
-            fragmentsList.Add(fragmentB);
-            fragmentsList.Add(fragmentC);
-            fragmentsList.Add(fragmentD);
-            foreach (String[] stringArray in fragmentsList) {
+            List<Tuple<String[], String>> fragmentsList = new List<Tuple<String[], String>>();
+            fragmentsList.Add(Tuple.Create(fragmentA, sentenceA));
+            fragmentsList.Add(Tuple.Create(fragmentB, sentenceB));
+            fragmentsList.Add(Tuple.Create(fragmentC, sentenceC));
+            fragmentsList.Add(Tuple.Create(fragmentD, sentenceD));
+            for (int a = 0; a < fragmentsList.Count; a++) {
                 var overlapCheck = new List<Tuple<string, string, string, int>>();
-                String[] checkedFragments = CheckFragments(stringArray);
+                String[] checkedFragments = CheckFragments(fragmentsList[a].Item1);
                 int length = checkedFragments.Length;
 
                 while (length > 1) {
@@ -87,7 +94,13 @@ namespace ConsoleApplication
                     overlapCheck.Clear(); // Remove all items for fresh comparison of remaining strings
                     length = checkedFragments.Length; // Update length to reflect updated array
                 }
-                Console.WriteLine(String.Join("", checkedFragments));
+                string final = String.Join("", checkedFragments);
+                if (final == fragmentsList[a].Item2) {
+                    Console.WriteLine(final);
+                }
+                else {
+                    Console.WriteLine("Strings do not match:\n\tExpected:\t{0}\n\tObtained:\t{1}",fragmentsList[a].Item2, final);
+                }
             }
         }
 
